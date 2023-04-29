@@ -3,6 +3,7 @@
 #include <GL/eglew.h>
 #include "Sprite.h"
 #include "Error.h"
+#include "HLSLProgram.h"
 
 #include <iostream>
 
@@ -17,10 +18,13 @@ class MainGame
 private :
 	int width;
 	int height;
+	float time;
 	SDL_Window* window;
+	HLSLProgram program;
 	Sprite sprite;
 	void init();
 	void processInput();
+	void initShaders();
 public:
 	MainGame();
 	~MainGame();

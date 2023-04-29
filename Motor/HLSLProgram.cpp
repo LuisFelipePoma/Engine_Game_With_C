@@ -9,13 +9,21 @@ HLSLProgram::~HLSLProgram() {
 
 
 void HLSLProgram::addAtribute(const string attributeName) {
-
+	glBindAttribLocation(programID, numAtribute++, attributeName.c_str());
 }
 void HLSLProgram::use() {
-
+	glUseProgram(programID);
+	for (int i = 0; i < numAtribute; i++)
+	{
+		glEnableVertexAttribArray(i);
+	}
 }
 void HLSLProgram::unuse() {
-
+	glUseProgram(0);
+	for (int i = 0; i < numAtribute; i++)
+	{
+		glDisableVertexAttribArray(i);
+	}
 }
 void HLSLProgram::compileShaders(const string& vertexShaderFilePath, const string& fragmentShaderFilePath) {
 	programID = glCreateProgram();
@@ -54,7 +62,7 @@ void HLSLProgram::compileShader(const string& shaderPath, GLuint id) {
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLenght);
 		vector<GLchar> infoLog(maxLenght);
 		glGetShaderInfoLog(id, maxLenght, &maxLenght, &infoLog[0]);
-		fatalError("Shader" + shaderPath + " could not compile " + printf("%s", &(infoLog[0])));
+		fatalError("Shader could not compile " + printf("%s", &(infoLog[0])));
 		glDeleteShader(id);
 		return;
 	}
@@ -73,7 +81,7 @@ void HLSLProgram::linkShader() {
 		vector<GLchar> infoLog(maxLenght);
 		glGetProgramInfoLog(programID, maxLenght, &maxLenght, &infoLog[0]);
 		glDeleteProgram(programID);
-		fatalError("Shaders could not open link " + printf("%s", &(infoLog[0])));
+		fatalError("Shaders could not link " + printf("%s", &(infoLog[0])));
 		glDeleteShader(vertexShaderID);
 		glDeleteShader(fragmentShaderID);
 		return;
@@ -84,5 +92,9 @@ void HLSLProgram::linkShader() {
 	glDeleteShader(fragmentShaderID);
 }
 GLuint HLSLProgram::getUniformLocation(const string& name) {
-	return 0;
+	GLuint location = glGetUniformLocation(programID, name.c_str());
+	if (location == GL_INVALID_INDEX) {
+		fatalError("Unifom" + name + "not found.");
+	}
+	return location;
 }
