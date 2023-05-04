@@ -1,10 +1,12 @@
 #include "IOManager.h"
 
+
 bool IOManager::readFiletoBuffer(string filePath, vector<unsigned char>& buffer)
 {
     ifstream file(filePath, ios::binary);
 	if (file.fail())
 	{
+		fatalError(filePath.c_str());
 		return false;
 	}
 	file.seekg(0, ios::end);
@@ -14,5 +16,5 @@ bool IOManager::readFiletoBuffer(string filePath, vector<unsigned char>& buffer)
 	buffer.resize(fileSize);
 	file.read((char*)&(buffer[0]), fileSize);
 	file.close();
-    return false;
+    return true;
 }

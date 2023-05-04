@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "Error.h"
 using namespace std;
 
 class IOManager
