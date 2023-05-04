@@ -54,7 +54,7 @@ void HLSLProgram::compileShader(const string& shaderPath, GLuint id) {
 		glGetShaderiv(id, GL_INFO_LOG_LENGTH, &maxLenght);
 		vector<GLchar> infoLog(maxLenght);
 		glGetShaderInfoLog(id, maxLenght, &maxLenght, &infoLog[0]);
-		fatalError("Shader" + shaderPath + " could not compile " + printf("%s", &(infoLog[0])));
+		fatalError("Shader could not compile ");
 		glDeleteShader(id);
 		return;
 	}
