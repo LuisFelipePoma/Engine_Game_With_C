@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include <vector>
 
+// Creacion de una clase Sprites
+
 class Sprites
 {
 private:

@@ -17,7 +17,7 @@ private:
 	float time;
 	Window window;
 	HLSLProgram program;
-	Sprites* sprites;
+	Sprites* sprites; // Variable que almacenara los sprites
 	void init();
 	void processInput();
 	void initShaders();
@@ -26,7 +26,6 @@ public:
 	MainGame();
 	~MainGame();
 	GameState gameState;
-
 	void run();
 	void draw();
 	void update();
