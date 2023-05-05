@@ -68,6 +68,8 @@ void MainGame::draw() {
 void MainGame::run() {
 	init();
 	sprites->insertSprites(-1, -1, 1, 1, "Textures/gato.png");
+	sprites->insertSprites(0, 0, 1, 1, "Textures/mario.png");
+	sprites->initSprites();
 	update();
 }
 
