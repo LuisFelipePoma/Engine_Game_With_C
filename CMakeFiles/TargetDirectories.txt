@@ -1,0 +1,3 @@
+/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build/CMakeFiles/MOTOR.dir
+/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build/CMakeFiles/edit_cache.dir
+/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build/CMakeFiles/rebuild_cache.dir

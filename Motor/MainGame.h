@@ -2,31 +2,32 @@
 #include <SDL2/SDL.h>
 #include <GL/eglew.h>
 #include "Sprite.h"
-#include "Error.h"
+#include "HLSLProgram.h"
+#include "Window.h"
 
-#include <iostream>
-
-using namespace std;
-
-enum class GameState
-{
+enum class GameState {
 	PLAY, EXIT
 };
+
 class MainGame
 {
-private :
+private:
 	int width;
 	int height;
-	SDL_Window* window;
+	float time;
+	Window window;
+	HLSLProgram program;
 	Sprite sprite;
 	void init();
 	void processInput();
+	void initShaders();
+
 public:
 	MainGame();
 	~MainGame();
 	GameState gameState;
+
 	void run();
 	void draw();
 	void update();
 };
-

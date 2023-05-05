@@ -1,0 +1,1 @@
+/usr/bin/g++ -g -rdynamic CMakeFiles/MOTOR.dir/Motor/main.cpp.o CMakeFiles/MOTOR.dir/Motor/MainGame.cpp.o CMakeFiles/MOTOR.dir/Motor/Error.cpp.o CMakeFiles/MOTOR.dir/Motor/HLSLProgram.cpp.o CMakeFiles/MOTOR.dir/Motor/Sprite.cpp.o -o MOTOR  /usr/lib/libSDL2-2.0.so.0.2600.5 /usr/lib/libSDL2main.a /usr/lib/libGLEW.so /usr/lib/libGL.so 

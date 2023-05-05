@@ -1,0 +1,68 @@
+[
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/main.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/main.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/main.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/main.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/Error.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Error.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Error.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/Error.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/HLSLProgram.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/HLSLProgram.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/HLSLProgram.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/HLSLProgram.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/IOManager.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/IOManager.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/IOManager.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/IOManager.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/ImageLoader.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/ImageLoader.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/ImageLoader.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/ImageLoader.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/MainGame.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/MainGame.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/MainGame.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/MainGame.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/ResourceManager.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/ResourceManager.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/ResourceManager.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/ResourceManager.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/Sprite.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Sprite.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Sprite.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/Sprite.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/TextureCache.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/TextureCache.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/TextureCache.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/TextureCache.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/Window.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Window.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/Window.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/Window.cpp.o"
+},
+{
+  "directory": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/build",
+  "command": "/usr/bin/g++ -isystem /usr/include/SDL2 -g -o CMakeFiles/MOTOR.dir/Motor/picoPNG.cpp.o -c /home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/picoPNG.cpp",
+  "file": "/home/pms_09/Codes/TeoriaJuegos/Fundamento-de-Teoria-de-Juegos/Motor/picoPNG.cpp",
+  "output": "CMakeFiles/MOTOR.dir/Motor/picoPNG.cpp.o"
+}
+]
