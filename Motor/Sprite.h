@@ -13,12 +13,13 @@ private:
 	float y;
 	int width;
 	int height;
+	string texturePath;
 	GLuint vboID;
 	GLTexture texture;
 public:
-	Sprite();
+	Sprite(float x, float y, int width, int height, string texturePath);
 	~Sprite();
-	void init(float x, float y, int width, int height,string texturePath);
+	void init();
 	void draw();
 };
 

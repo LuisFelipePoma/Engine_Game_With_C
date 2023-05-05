@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL/SDL.h>
 #include <GL/eglew.h>
-#include "Sprite.h"
+#include "Sprites.h"
 #include "HLSLProgram.h"
 #include "Window.h"
 
@@ -17,7 +17,7 @@ private:
 	float time;
 	Window window;
 	HLSLProgram program;
-	Sprite sprite;
+	Sprites* sprites;
 	void init();
 	void processInput();
 	void initShaders();

@@ -8,6 +8,7 @@ MainGame::MainGame() {
 	height = 600;
 	gameState = GameState::PLAY;
 	time = 0;
+	sprites = new Sprites();
 }
 
 MainGame::~MainGame() {
@@ -59,14 +60,14 @@ void MainGame::draw() {
 	time += 0.002;
 	GLuint imageLocation = program.getUniformLocation("myImage");
 	glUniform1i(imageLocation, 0);
-	sprite.draw();
+	sprites->drawSprites();
 	program.unuse();
 	window.swapWindow();
 }
 
 void MainGame::run() {
 	init();
-	sprite.init(-1, -1, 1, 1, "Textures/gato.png");
+	sprites->insertSprites(-1, -1, 1, 1, "Textures/gato.png");
 	update();
 }
 
