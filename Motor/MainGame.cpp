@@ -8,6 +8,7 @@ MainGame::MainGame() {
 	height = 600;
 	gameState = GameState::PLAY;
 	time = 0;
+	camera2D.init(width, height);
 }
 
 MainGame::~MainGame() {
@@ -22,10 +23,17 @@ void MainGame::processInput() {
 			gameState = GameState::EXIT;
 			break;
 		case SDL_MOUSEMOTION:
-			//cout << event.motion.x << " , " << event.motion.y << endl;
+			inputManager.setMouseCoords(event.motion.x, event.motion.y);
+			break;
+		case SDL_KEYUP:
+			inputManager.releaseKey(event.key.keysym.sym);
+			break;
+		case SDL_KEYDOWN:
+			inputManager.pressKey(event.key.keysym.sym);
 			break;
 		}
 	}
+	handleInput();
 }
 
 void MainGame::initShaders()
@@ -35,6 +43,27 @@ void MainGame::initShaders()
 	program.addAtribute("vertexColor");
 	program.addAtribute("vertexUV");
 	program.linkShader();
+}
+
+void MainGame::handleInput()
+{
+	if (inputManager.isKeyPressed(SDLK_w)) {
+		cout << "Presiono W" << endl;
+		camera2D.setPosition(camera2D.getPosition() + glm::vec2(0.0f, 5.0f));
+	}
+	if (inputManager.isKeyPressed(SDLK_a)) {
+		cout << "Presiono A" << endl;
+		camera2D.setPosition(camera2D.getPosition() - glm::vec2(5.0f, 0.0f));
+	}
+	if (inputManager.isKeyPressed(SDLK_s)) {
+		cout << "Presiono S" << endl;
+		camera2D.setPosition(camera2D.getPosition() - glm::vec2(0.0f, 5.0f));
+	}
+	if (inputManager.isKeyPressed(SDLK_d)) {
+		cout << "Presiono D" << endl;
+		camera2D.setPosition(camera2D.getPosition() + glm::vec2(5.0f, 0.0f));
+	}
+	camera2D.update();
 }
 
 void MainGame::init() {
@@ -56,9 +85,17 @@ void MainGame::draw() {
 	glActiveTexture(GL_TEXTURE0);
 	GLuint timeLocation = program.getUniformLocation("time");
 	glUniform1f(timeLocation, time);
-	time += 0.002;
+	time += 0.005;
+	
+	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	GLuint pCameraLocation = program.getUniformLocation("pCamera");
+	glUniformMatrix4fv(pCameraLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
 	GLuint imageLocation = program.getUniformLocation("myImage");
 	glUniform1i(imageLocation, 0);
+
+
+
 	sprite.draw();
 	program.unuse();
 	window.swapWindow();
@@ -66,7 +103,7 @@ void MainGame::draw() {
 
 void MainGame::run() {
 	init();
-	sprite.init(-1, -1, 1, 1, "Textures/gato.png");
+	sprite.init(-1, -1, 1, 1, "Textures/mario.png");
 	update();
 }
 
