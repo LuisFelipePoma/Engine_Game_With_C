@@ -29,6 +29,15 @@ void Camera2D::init(int screenWidth, int screenHeight)
 		(float)screenWidth, 0.0f, (float)screenHeight);
 }
 
+glm::vec2 Camera2D::convertToScreenWorld(glm::vec2 screenScords)
+{
+	screenScords.y = screenHeight - screenScords.y;
+	screenScords -= glm::vec2(screenWidth / 2, screenHeight / 2);
+	screenScords /= scale;
+	screenScords += position;
+	return screenScords;
+}
+
 
 Camera2D::~Camera2D()
 {

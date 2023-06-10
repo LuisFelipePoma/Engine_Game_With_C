@@ -13,6 +13,7 @@ Human::~Human()
 
 void Human::init(float speed, glm::vec2 position)
 {
+	this->path = "Textures/circle.png";
 	this->speed = speed;
 	color.set(185, 0, 0, 255);
 	static std::mt19937 randomEngine(time(nullptr));

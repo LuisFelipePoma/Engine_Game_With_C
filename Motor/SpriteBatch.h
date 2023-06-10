@@ -25,39 +25,33 @@ public:
 	}
 };
 
-class Glyph
-{
+class Glyph {
 public:
-	Glyph(){}
+	Glyph() {}
 	Glyph(const glm::vec4& desRect, const glm::vec4& uvRect,
 		GLuint texture, float depth, const Color& color) {
 		this->texture = texture;
 		this->depth = depth;
-		
 		topLeft.color = color;
 		topLeft.setPosition(desRect.x, desRect.y + desRect.w);
 		topLeft.setUV(uvRect.x, uvRect.y + uvRect.w);
-
 		bottomLeft.color = color;
 		bottomLeft.setPosition(desRect.x, desRect.y);
-		bottomLeft.setUV(desRect.x, desRect.y);
-
+		bottomLeft.setUV(uvRect.x, uvRect.y);
 		bottomRight.color = color;
 		bottomRight.setPosition(desRect.x + desRect.z, desRect.y);
-		bottomRight.setUV(desRect.x + desRect.z, desRect.y);
-
+		bottomRight.setUV(uvRect.x + uvRect.z, uvRect.y);
 		topRight.color = color;
 		topRight.setPosition(desRect.x + desRect.z, desRect.y + desRect.w);
-		topRight.setUV(uvRect.x, uvRect.z + uvRect.w);
-	}
+		topRight.setUV(uvRect.x + uvRect.z, uvRect.y + uvRect.w);
 
+	}
 	GLuint texture;
 	float depth;
 	Vertex topLeft;
 	Vertex bottomLeft;
 	Vertex topRight;
 	Vertex bottomRight;
-	
 };
 
 class SpriteBatch

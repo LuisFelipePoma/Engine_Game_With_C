@@ -39,19 +39,16 @@ void Level::parseLevel()
 			switch (tile)
 			{
 			case 'R':
-				//Por implementar
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
 				break;
 			case 'B':
-				//Por implementar
-
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
 				break;
 			case 'G':
-				//Por implementar
-
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
 				break;
 			case 'L':
-				//Por implementar
-
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/light_bricks.png").id, 0.0f, color);
 				break;
 			case '@':
 				levelData[y][x] = '.';
@@ -67,10 +64,12 @@ void Level::parseLevel()
 			}
 		}
 	}
+	spriteBatch.end();
 }
 
 void Level::draw()
 {
+	spriteBatch.renderBatch();
 }
 
 Level::~Level()

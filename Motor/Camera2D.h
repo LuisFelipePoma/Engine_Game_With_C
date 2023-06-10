@@ -20,6 +20,7 @@ public:
 	glm::vec2 getPosition() {
 		return position;
 	}
+	glm::vec2 convertToScreenWorld(glm::vec2 screenScords);
 	void setPosition(glm::vec2 newPosition) {
 		position = newPosition;
 		needsUpdateMatrix = true;
@@ -31,6 +32,7 @@ public:
 	glm::mat4 getCameraMatrix() {
 		return cameraMatrix;
 	}
+	float getScale() { return scale; }
 	Camera2D();
 	~Camera2D();
 };

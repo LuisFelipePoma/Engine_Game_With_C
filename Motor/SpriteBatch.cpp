@@ -52,10 +52,9 @@ void SpriteBatch::end()
 
 void SpriteBatch::createRenderBatches()
 {
-	vector<Vertex> vertices;
+	vector<Vertex>vertices;
 	vertices.resize(glyphs.size() * 6);
-	if (glyphs.size() == 0)
-	{
+	if (glyphs.size() == 0) {
 		return;
 	}
 	int cv = 0;
@@ -70,10 +69,12 @@ void SpriteBatch::createRenderBatches()
 	offset += 6;
 	for (int i = 1; i < glyphPointers.size(); i++)
 	{
-		if (glyphPointers[i]->texture != glyphPointers[i - 1]->texture)
+		if (glyphPointers[i]->texture != glyphPointers[i - 1]->texture) {
 			renderBatches.emplace_back(offset, 6, glyphPointers[1]->texture);
-		else
+		}
+		else {
 			renderBatches.back().numVertices += 6;
+		}
 		vertices[cv++] = glyphPointers[i]->topLeft;
 		vertices[cv++] = glyphPointers[i]->bottomLeft;
 		vertices[cv++] = glyphPointers[i]->bottomRight;
@@ -83,12 +84,11 @@ void SpriteBatch::createRenderBatches()
 		offset += 6;
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex),nullptr,
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), nullptr,
 		GL_STATIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex),
 		vertices.data());
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
 }
 
 void SpriteBatch::renderBatch()
@@ -106,7 +106,6 @@ void SpriteBatch::renderBatch()
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color)
 {
 	glyphs.emplace_back(destRect, uvRect, texture, depth, color);
-
 }
 
 void SpriteBatch::sortGlyph()
@@ -116,9 +115,11 @@ void SpriteBatch::sortGlyph()
 	case GlyphSortType::FRONT_TO_BACK:
 		stable_sort(glyphPointers.begin(), glyphPointers.end(), compareFrontToBack);
 		break;
+
 	case GlyphSortType::BACK_TO_FRONT:
 		stable_sort(glyphPointers.begin(), glyphPointers.end(), compareBackToFront);
 		break;
+
 	case GlyphSortType::TEXTURE:
 		stable_sort(glyphPointers.begin(), glyphPointers.end(), compareTexture);
 		break;
@@ -132,12 +133,6 @@ SpriteBatch::SpriteBatch()
 SpriteBatch::~SpriteBatch()
 {
 }
-
-
-
-
-
-
 
 bool SpriteBatch::compareFrontToBack(Glyph* a, Glyph* b)
 {
