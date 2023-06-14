@@ -1,6 +1,6 @@
 #include "Bullet.h"
 #include "ResourceManager.h"
-#include 
+#include "GLTexture.h"
 
 Bullet::Bullet(glm::vec2 position, glm::vec2 direction, float speed, int lifetime)
 {

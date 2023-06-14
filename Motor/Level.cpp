@@ -42,7 +42,7 @@ void Level::parseLevel()
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
 				break;
 			case 'B':
-				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
 				break;
 			case 'G':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);

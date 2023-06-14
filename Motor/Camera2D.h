@@ -32,7 +32,9 @@ public:
 	glm::mat4 getCameraMatrix() {
 		return cameraMatrix;
 	}
-	float getScale() { return scale; }
+	float getScale() { 
+		return scale; 
+	}
 	Camera2D();
 	~Camera2D();
 };

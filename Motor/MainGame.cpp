@@ -75,9 +75,6 @@ void MainGame::handleInput()
 	if (inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 		cout << "CLICK MEDIO" << endl;
 	}
-
-	camera2D.update();
-	updateElements();
 }
 
 void MainGame::updateElements()
@@ -106,7 +103,7 @@ void MainGame::initLevel()
 	//inicializar humanos, player y zombie
 	player = new Player();
 	player->init(1.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
-	
+	spriteBatch.init();
 
 	mt19937 randomEngine(time(nullptr));
 	uniform_int_distribution<int> randomPoxX(
@@ -122,7 +119,6 @@ void MainGame::initLevel()
 			randomPoxY(randomEngine) * TILE_WIDTH);
 		humans.back()->init(1.0f, pos);
 	}
-	spriteBatch.init();
 }
 
 void MainGame::draw() {
@@ -165,5 +161,6 @@ void MainGame::update() {
 		camera2D.update();
 		camera2D.setPosition(player->getPosition());
 		processInput();
+		updateElements();
 	}
 }
