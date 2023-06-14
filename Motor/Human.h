@@ -9,7 +9,7 @@ public:
 	Human();
 	~Human();
 	void init(float speed, glm::vec2 position);
-	void update(const vector<string>& levelData, vector<Human>& humans,
-		vector<Zombie>& zombies);
+	void update(const vector<string>& levelData, vector<Human*>& humans,
+		vector<Zombie*>& zombies);
 };
 

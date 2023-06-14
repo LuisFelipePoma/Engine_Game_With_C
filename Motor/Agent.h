@@ -3,6 +3,7 @@
 #include "SpriteBatch.h"
 #include "GLTexture.h"
 #include <string>
+#include "Level.h"
 
 class Zombie;
 class Human;
@@ -29,8 +30,8 @@ public:
 	void setPosition(glm::vec2 position) {
 		this->position = position;
 	}
-	virtual void update(const vector<string>& levelData, vector<Human>& humans,
-						vector<Zombie>& zombies) = 0;
+	virtual void update(const vector<string>& levelData, vector<Human*>& humans,
+						vector<Zombie*>& zombies) = 0;
 	void draw(SpriteBatch& spriteBatch);
 	bool collideWithLevel(const vector<string>& levelData);
 	bool collideWithAgent(Agent* agent);

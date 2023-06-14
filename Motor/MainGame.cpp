@@ -80,6 +80,10 @@ void MainGame::handleInput()
 void MainGame::updateElements()
 {
 	player->update(levels[currentLevel]->getLevelData(), humans,zombies);
+	for (size_t i = 0; i < humans.size(); i++)
+	{
+		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+	}
 }
 
 void MainGame::init() {
@@ -90,7 +94,7 @@ void MainGame::init() {
 		fatalError("Glew not initialized");
 	}
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 	initLevel();
 	initShaders();
 }
