@@ -1,22 +1,22 @@
-#include "Human.h"
+#include "Zombie.h"
 #include <random>
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>
 
-Human::Human()
+Zombie::Zombie()
 {
 }
 
-Human::~Human()
+Zombie::~Zombie()
 {
 }
 
-void Human::init(float speed, glm::vec2 position)
+void Zombie::init(float speed, glm::vec2 position)
 {
 	this->path = "Textures/circle.png";
 	this->speed = speed;
 	this->position = position;
-	color.set(0, 0, 255, 255);
+	color.set(0, 255, 0, 255);
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randDir(-1.0, 1.0f);
 	direction = glm::vec2(randDir(randomEngine), randDir(randomEngine));
@@ -27,7 +27,7 @@ void Human::init(float speed, glm::vec2 position)
 	direction = glm::vec2(direction);
 }
 
-void Human::update(const vector<string>& levelData, vector<Human*>& humans,
+void Zombie::update(const vector<string>& levelData, vector<Human*>& humans,
 	vector<Zombie*>& zombies) {
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randRotate(-40.0, 40.0f);

@@ -11,6 +11,7 @@ MainGame::MainGame() {
 	height = 800;
 	gameState = GameState::PLAY;
 	camera2D.init(width, height);
+	
 }
 
 MainGame::~MainGame() {
@@ -84,6 +85,11 @@ void MainGame::updateElements()
 	{
 		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
 	}
+	for (size_t i = 0; i < zombies.size(); i++)
+	{
+		zombies[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+	}
+	
 }
 
 void MainGame::init() {
@@ -111,17 +117,28 @@ void MainGame::initLevel()
 
 	mt19937 randomEngine(time(nullptr));
 	uniform_int_distribution<int> randomPoxX(
-		1, levels[currentLevel]->getWidth() - 2
+		1, levels[currentLevel]->getWidth()-2
 	);
 	uniform_int_distribution<int> randomPoxY(
-		1, levels[currentLevel]->getWidth() - 2
+		1, levels[currentLevel]->getWidth() /2
 	);
+	// Creacion de Humanos
 	for (int i = 0; i < levels[currentLevel]->getNumHumans(); i++)
 	{
 		humans.push_back(new Human());
 		glm::vec2 pos(randomPoxX(randomEngine) * TILE_WIDTH, 
-			randomPoxY(randomEngine) * TILE_WIDTH);
+			randomPoxY(randomEngine) * TILE_WIDTH/2);
 		humans.back()->init(1.0f, pos);
+	}
+	
+	vector<glm::vec2>zombiesData = levels[currentLevel]->getZombiesPosition();
+	//Creacion de Zombies
+	for (int i = 0; i < zombiesData.size(); i++)
+	{
+		zombies.push_back(new Zombie());
+		glm::vec2 pos(zombiesData[i].x ,
+			zombiesData[i].y);
+		zombies.back()->init(1.0f, pos);
 	}
 }
 
@@ -145,6 +162,11 @@ void MainGame::draw() {
 	for (int i = 0; i < humans.size(); i++)
 	{
 		humans[i]->draw(spriteBatch);
+	}
+
+	for (int i = 0; i < zombies.size(); i++)
+	{
+		zombies[i]->draw(spriteBatch);
 	}
 
 	spriteBatch.end();

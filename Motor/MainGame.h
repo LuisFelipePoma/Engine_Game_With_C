@@ -9,7 +9,7 @@
 #include "Level.h"
 #include "Player.h"
 #include "Human.h"	
-#include "Zombi.h"
+#include "Zombie.h"
 #include "SpriteBatch.h"
 
 enum class GameState {
@@ -27,6 +27,7 @@ private:
 	vector<Level*> levels;
 	vector<Human*> humans;
 	vector<Zombie*> zombies;
+	
 	Player* player;
 	int currentLevel;
 
