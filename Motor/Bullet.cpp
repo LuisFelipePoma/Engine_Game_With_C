@@ -4,6 +4,7 @@
 
 Bullet::Bullet(glm::vec2 position, glm::vec2 direction, float speed, int lifetime)
 {
+    this->position = position;
     this->lifetime = lifetime;
     this->direction = direction;
     this->speed = speed;
@@ -19,7 +20,7 @@ void Bullet::draw(SpriteBatch& spritebatch)
     Color color;
     color.set(255, 255, 255, 255);
     glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
-    static GLTexture texture = ResourceManager::getTexture("Textures/mario.png");
+    static GLTexture texture = ResourceManager::getTexture("Textures/circle.png");
     glm::vec4 posAndSize = glm::vec4(position.x, position.y, 30, 30);
     spritebatch.draw(posAndSize, uv, texture.id, 0.0f, color);
 }

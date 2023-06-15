@@ -67,6 +67,7 @@ void MainGame::handleInput()
 		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
+		createBullet();
 		cout << "CLICK IZQUIERDO"<<endl;
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
@@ -76,6 +77,19 @@ void MainGame::handleInput()
 		cout << "CLICK MEDIO" << endl;
 	}
 }
+void MainGame::createBullet()
+{
+	glm::vec2 mouseCoords = 
+		camera2D.convertToScreenWorld(inputManager.getMouseCoords());
+	glm::vec2 playerPosition = player->getPosition();
+	glm::vec2 direction = mouseCoords - playerPosition;
+	direction = glm::normalize(direction);
+	Bullet* bullet = new Bullet(playerPosition, direction, 1.0f, 1000);
+	bullets.push_back(bullet);
+	cout << "Se creo una bala\n";
+	cout << playerPosition.x<<" - "<<playerPosition.y << endl;
+	cout << direction.x<<" - "<<direction.y << endl;
+}
 
 void MainGame::updateElements()
 {
@@ -84,7 +98,19 @@ void MainGame::updateElements()
 	{
 		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
 	}
+	for (size_t i = 0; i < bullets.size();)
+	{
+		if (bullets[i]->update()) {
+			bullets[i] = bullets.back();
+			bullets.pop_back();
+		}
+		else {
+			i++;
+		}
+	}
 }
+
+
 
 void MainGame::init() {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -106,7 +132,7 @@ void MainGame::initLevel()
 
 	//inicializar humanos, player y zombie
 	player = new Player();
-	player->init(1.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
+	player->init(5.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
 	spriteBatch.init();
 
 	mt19937 randomEngine(time(nullptr));
@@ -145,6 +171,10 @@ void MainGame::draw() {
 	for (int i = 0; i < humans.size(); i++)
 	{
 		humans[i]->draw(spriteBatch);
+	}
+	for (int i = 0; i < bullets.size(); i++)
+	{
+		bullets[i]->draw(spriteBatch);
 	}
 
 	spriteBatch.end();

@@ -11,6 +11,7 @@
 #include "Human.h"	
 #include "Zombi.h"
 #include "SpriteBatch.h"
+#include "Bullet.h"
 
 enum class GameState {
 	PLAY, EXIT
@@ -26,6 +27,7 @@ private:
 	SpriteBatch spriteBatch;
 	vector<Level*> levels;
 	vector<Human*> humans;
+	vector<Bullet*> bullets;
 	vector<Zombie*> zombies;
 	Player* player;
 	int currentLevel;
@@ -42,7 +44,7 @@ private:
 	void initShaders();
 	void handleInput();
 	void updateElements();
-
+	void createBullet();
 public:
 	MainGame();
 	~MainGame();
