@@ -84,7 +84,8 @@ void MainGame::createBullet()
 	glm::vec2 playerPosition = player->getPosition();
 	glm::vec2 direction = mouseCoords - playerPosition;
 	direction = glm::normalize(direction);
-	Bullet* bullet = new Bullet(playerPosition, direction, 10.0f, 1000);
+	Bullet* bullet = new Bullet();
+	bullet->init(playerPosition, direction, 10.0f, 1000);
 	bullets.push_back(bullet);
 	cout << "Se creo una bala\n";
 	cout << playerPosition.x<<" - "<<playerPosition.y << endl;
@@ -114,11 +115,21 @@ void MainGame::updateElements()
 	}
 	for (size_t i = 0; i < bullets.size();)
 	{
-		if (bullets[i]->update()) {
+		if (bullets[i]->updateB(levels[currentLevel]->getLevelData())) {
 			bullets[i] = bullets.back();
 			bullets.pop_back();
 		}
 		else {
+
+			for (size_t j = 0; j < zombies.size(); j++)
+			{
+				if (bullets[i]->collideWithAgent(zombies[j])) {
+					delete zombies[j];
+					zombies[j] = zombies.back();
+					zombies.pop_back();
+					bullets[i]->setLifetime(1);
+				}
+			}
 			i++;
 		}
 	}

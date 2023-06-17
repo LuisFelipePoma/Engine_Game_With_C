@@ -2,7 +2,6 @@
 #include <random>
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>
-
 Human::Human()
 {
 }
