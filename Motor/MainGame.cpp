@@ -84,7 +84,7 @@ void MainGame::createBullet()
 	glm::vec2 playerPosition = player->getPosition();
 	glm::vec2 direction = mouseCoords - playerPosition;
 	direction = glm::normalize(direction);
-	Bullet* bullet = new Bullet(playerPosition, direction, 1.0f, 1000);
+	Bullet* bullet = new Bullet(playerPosition, direction, 10.0f, 1000);
 	bullets.push_back(bullet);
 	cout << "Se creo una bala\n";
 	cout << playerPosition.x<<" - "<<playerPosition.y << endl;
@@ -97,6 +97,20 @@ void MainGame::updateElements()
 	for (size_t i = 0; i < humans.size(); i++)
 	{
 		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+	}
+	for (size_t i = 0; i < zombies.size(); i++)
+	{
+		zombies[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+		for (size_t j = 0; j < humans.size(); j++)
+		{
+			if (zombies[i]->collideWithAgent(humans[j])) {
+				zombies.push_back(new Zombie());
+				zombies.back()->init(1.3f, humans[j]->getPosition());
+				delete humans[j];
+				humans[j] = humans.back();
+				humans.pop_back();
+			}
+		}
 	}
 	for (size_t i = 0; i < bullets.size();)
 	{
@@ -134,21 +148,33 @@ void MainGame::initLevel()
 	player = new Player();
 	player->init(5.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
 	spriteBatch.init();
+	hudBatch.init();
 
 	mt19937 randomEngine(time(nullptr));
 	uniform_int_distribution<int> randomPoxX(
 		1, levels[currentLevel]->getWidth() - 2
 	);
 	uniform_int_distribution<int> randomPoxY(
-		1, levels[currentLevel]->getWidth() - 2
+		1, levels[currentLevel]->getWidth() / 2
 	);
 	for (int i = 0; i < levels[currentLevel]->getNumHumans(); i++)
 	{
 		humans.push_back(new Human());
 		glm::vec2 pos(randomPoxX(randomEngine) * TILE_WIDTH, 
-			randomPoxY(randomEngine) * TILE_WIDTH);
+			randomPoxY(randomEngine) * TILE_WIDTH/2);
 		humans.back()->init(1.0f, pos);
 	}
+	//humans.push_back(player);
+	//Creacion de Zombies
+	vector<glm::vec2>zombiesData = levels[currentLevel]->getZombiesPosition();
+	for (int i = 0; i < zombiesData.size(); i++)
+	{
+		zombies.push_back(new Zombie());
+		glm::vec2 pos(zombiesData[i].x,
+			zombiesData[i].y);
+		zombies.back()->init(1.0f, pos);
+	}
+	spriteFont = new SpriteFont("Fonts/font.ttf",64);
 }
 
 void MainGame::draw() {
@@ -172,6 +198,10 @@ void MainGame::draw() {
 	{
 		humans[i]->draw(spriteBatch);
 	}
+	for (int i = 0; i < zombies.size(); i++)
+	{
+		zombies[i]->draw(spriteBatch);
+	}
 	for (int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i]->draw(spriteBatch);
@@ -179,9 +209,29 @@ void MainGame::draw() {
 
 	spriteBatch.end();
 	spriteBatch.renderBatch();
+	drawHud();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	program.unuse();
 	window.swapWindow();
+}
+
+void MainGame::drawHud()
+{
+	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
+	GLuint pCameraLocation = program.getUniformLocation("pCamera");
+	glUniformMatrix4fv(pCameraLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
+
+	char buffer[256];
+	hudBatch.begin();
+
+	sprintf_s(buffer, "HOLAAAAAAA");
+	Color color;
+	color.set(255,255,255,255);
+	spriteFont->draw(hudBatch, buffer, glm::vec2(0, 0),
+		glm::vec2(0.5),0.0f,color);
+
+	hudBatch.end();
+	hudBatch.renderBatch();
 }
 
 void MainGame::run() {

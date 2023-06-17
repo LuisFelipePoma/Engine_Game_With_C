@@ -9,9 +9,10 @@
 #include "Level.h"
 #include "Player.h"
 #include "Human.h"	
-#include "Zombi.h"
+#include "Zombie.h"
 #include "SpriteBatch.h"
 #include "Bullet.h"
+#include "SpriteFont.h"
 
 enum class GameState {
 	PLAY, EXIT
@@ -24,7 +25,10 @@ private:
 	int height;
 	//float time;
 
+	SpriteFont* spriteFont;
 	SpriteBatch spriteBatch;
+	SpriteBatch hudBatch;
+
 	vector<Level*> levels;
 	vector<Human*> humans;
 	vector<Bullet*> bullets;
@@ -53,5 +57,6 @@ public:
 
 	void run();
 	void draw();
+	void drawHud();
 	void update();
 };

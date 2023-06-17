@@ -44,7 +44,7 @@ void Game::run()
 	if (!init()) return;
 	isRunning = true;
 	while (isRunning) {
-		//inputManager.update();
+		inputManager.update();
 		update();
 		draw();
 		window.swapWindow();
@@ -97,6 +97,7 @@ void Game::update()
 
 void Game::onSDLEvent(SDL_Event& event)
 {
+
 }
 
 
