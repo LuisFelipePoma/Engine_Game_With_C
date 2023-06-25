@@ -23,6 +23,9 @@ class MainGame
 private:
 	int width;
 	int height;
+	int currentLevel;
+	double alphaReduce;
+	double alphaReduceTotal;
 	//float time;
 
 	SpriteFont* spriteFont;
@@ -34,7 +37,6 @@ private:
 	vector<Bullet*> bullets;
 	vector<Zombie*> zombies;
 	Player* player;
-	int currentLevel;
 
 	Window window;
 	HLSLProgram program;
@@ -59,4 +61,5 @@ public:
 	void draw();
 	void drawHud();
 	void update();
+	void reset();
 };

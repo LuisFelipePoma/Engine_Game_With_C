@@ -50,10 +50,26 @@ void Agent::collideWithTile(glm::vec2 tilePos)
 
 Agent::Agent()
 {
+	alive = true;
 }
 
 Agent::~Agent()
 {
+}
+
+void Agent::update(const vector<string>& levelData, vector<Human*>& humans, vector<Zombie*>& zombies)
+{
+}
+
+bool Agent::isDead()
+{
+	if (alive) {
+		lives--;
+	}
+	if (lives <= 0) {
+		alive = false;
+	}
+	return alive;
 }
 
 void Agent::draw(SpriteBatch& spriteBatch)

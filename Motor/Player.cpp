@@ -9,13 +9,15 @@ Player::~Player()
 {
 }
 
-void Player::init(float speed, glm::vec2 position, InputManager* inputManager)
+void Player::init(int vidas,float speed, glm::vec2 position, InputManager* inputManager)
 {
 	this->path = "Textures/circle.png";
 	this->speed = speed;
 	this->position = position;
 	this->inputManager = inputManager;
 	color.set(185, 0, 0, 255);
+	this->lives = vidas;
+	this->alive = true;
 }
 
 void Player::update(const vector<string>& levelData, vector<Human*>& humans,

@@ -76,6 +76,12 @@ void MainGame::handleInput()
 	if (inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 		cout << "CLICK MEDIO" << endl;
 	}
+	if (inputManager.isKeyPressed(SDLK_r) && !player->getAlive())
+	{
+		reset();
+		initLevel();
+		glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+	}
 }
 void MainGame::createBullet()
 {
@@ -94,6 +100,15 @@ void MainGame::createBullet()
 
 void MainGame::updateElements()
 {
+	
+	if (!player->getAlive()) {
+		/*cout<<"No corriendo\n";*/
+		glClearColor(0.5f, 0.2f, 0.1f, 1.0f);
+		return;
+	}
+	camera2D.update();
+	camera2D.setPosition(player->getPosition());
+	/*cout << "Corriendo\n";*/
 	player->update(levels[currentLevel]->getLevelData(), humans,zombies);
 	for (size_t i = 0; i < humans.size(); i++)
 	{
@@ -102,6 +117,18 @@ void MainGame::updateElements()
 	for (size_t i = 0; i < zombies.size(); i++)
 	{
 		zombies[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+		if (zombies[i]->collideWithAgent(player)) {
+			delete zombies[i];
+			zombies[i] = zombies.back();
+			zombies.pop_back();
+			Color otroColor = player->getColor();
+			otroColor.a -= alphaReduce;
+			player->setColor(otroColor);
+			if (!player->isDead()) {
+				cout << "\nPara revivir presione R\n";
+			}
+			break;
+		}
 		for (size_t j = 0; j < humans.size(); j++)
 		{
 			if (zombies[i]->collideWithAgent(humans[j])) {
@@ -157,7 +184,8 @@ void MainGame::initLevel()
 
 	//inicializar humanos, player y zombie
 	player = new Player();
-	player->init(5.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
+	player->init(5, 5.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
+	alphaReduce = (255 / player->getVidas());
 	spriteBatch.init();
 	hudBatch.init();
 
@@ -175,7 +203,6 @@ void MainGame::initLevel()
 			randomPoxY(randomEngine) * TILE_WIDTH/2);
 		humans.back()->init(1.0f, pos);
 	}
-	//humans.push_back(player);
 	//Creacion de Zombies
 	vector<glm::vec2>zombiesData = levels[currentLevel]->getZombiesPosition();
 	for (int i = 0; i < zombiesData.size(); i++)
@@ -253,9 +280,25 @@ void MainGame::run() {
 void MainGame::update() {
 	while (gameState != GameState::EXIT) {
 		draw();
-		camera2D.update();
-		camera2D.setPosition(player->getPosition());
+
 		processInput();
 		updateElements();
 	}
+}
+
+void MainGame::reset()
+{
+	for (size_t i = 0; i < zombies.size(); i++)
+	{
+		delete zombies[i];
+	}
+	zombies.clear();
+	for (size_t i = 0; i < humans.size(); i++)
+	{
+		delete humans[i];
+	}
+	humans.clear();
+	delete player;
+	levels.clear();
+	currentLevel = 0;
 }

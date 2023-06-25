@@ -16,6 +16,8 @@ class Agent
 protected:
 	string path;
 	glm::vec2 position;
+	bool alive;
+	int lives;
 	float speed;
 	Color color;
 	void checkTilePosition(const vector<string>& levelData,
@@ -23,6 +25,24 @@ protected:
 	void collideWithTile(glm::vec2 tilePos);
 public:
 	Agent();
+	int getVidas() const {
+		return lives;
+	}
+	void setVidas(int lives) {
+		this->lives = lives;
+	}
+	bool getAlive() const {
+		return alive;
+	}
+	Color getColor() const {
+		return color;
+	}
+	void setColor(Color color) {
+		this->color = color;
+	}
+	void setAlive(bool alive) {
+		this->alive = alive;
+	}
 	virtual ~Agent();
 	glm::vec2 getPosition() {
 		return position;
@@ -30,6 +50,8 @@ public:
 	void setPosition(glm::vec2 position) {
 		this->position = position;
 	}
+	bool isDead();
+
 	virtual void update(const vector<string>& levelData, vector<Human*>& humans,
 						vector<Zombie*>& zombies) = 0;
 	void draw(SpriteBatch& spriteBatch);

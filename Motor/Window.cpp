@@ -26,7 +26,7 @@ int Window::create(string windowName, int screenWidth, int screenHeight, unsigne
         screenWidth, screenHeight, flags);
 
     if (window == nullptr) {
-
+        fatalError("SDL not initialized\n");
     }
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
 
