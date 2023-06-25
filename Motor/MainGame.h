@@ -27,6 +27,9 @@ private:
 	double alphaReduce;
 	double alphaReduceTotal;
 	//float time;
+	int contadorHumanos;
+	int contadorZombies;
+
 
 	SpriteFont* spriteFont;
 	SpriteBatch spriteBatch;

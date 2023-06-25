@@ -36,7 +36,6 @@ bool Bullet::updateB(const vector<string>& levelData)
     position += direction * speed;
     if (collideWithLevel(levelData))
     {
-        std::cout << "Se impacto una pared" << std::endl;
         lifetime = 1;
     }
     lifetime--;
