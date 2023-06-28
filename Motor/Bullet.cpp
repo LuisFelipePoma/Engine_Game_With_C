@@ -31,16 +31,9 @@ void Bullet::draw(SpriteBatch& spritebatch)
     spritebatch.draw(posAndSize, uv, texture.id, 0.0f, color);
 }
 
-bool Bullet::updateB(const vector<string>& levelData)
+bool Bullet::isExist()
 {
-    position += direction * speed;
-    if (collideWithLevel(levelData))
-    {
-        std::cout << "Se impacto una pared" << std::endl;
-        lifetime = 1;
-    }
-    lifetime--;
-    if (lifetime == 0) {
+    if (lifetime <= 0) {
         return true;
     }
     return false;
@@ -49,9 +42,9 @@ bool Bullet::updateB(const vector<string>& levelData)
 void Bullet::update(const vector<string>& levelData, vector<Human*>& humans, vector<Zombie*>& zombies)
 {
     position += direction * speed;
-    lifetime--;
     if (collideWithLevel(levelData))
     {
-        lifetime = 0;
+        lifetime = 1;
     }
+    lifetime--;
 }

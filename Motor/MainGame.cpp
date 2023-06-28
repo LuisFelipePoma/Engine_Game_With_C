@@ -25,10 +25,10 @@ void MainGame::processInput() {
 			gameState = GameState::EXIT;
 			break;
 		case SDL_MOUSEMOTION:
-			cout << "Posicion del mouse : " << event.motion.x << " - " << event.motion.y << endl;
+			//cout << "Posicion del mouse : " << event.motion.x << " - " << event.motion.y << endl;
 			inputManager.setMouseCoords(event.motion.x, event.motion.y);
 			glm::vec2 mouseCoords = camera2D.convertToScreenWorld(inputManager.getMouseCoords());
-			cout << "Nueva posicion del mouse : " << mouseCoords.x << " - " << mouseCoords.y << endl;
+			//cout << "Nueva posicion del mouse : " << mouseCoords.x << " - " << mouseCoords.y << endl;
 
 			break;
 		case SDL_KEYUP:
@@ -68,19 +68,25 @@ void MainGame::handleInput()
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 		createBullet();
-		cout << "CLICK IZQUIERDO"<<endl;
+		//cout << "CLICK IZQUIERDO"<<endl;
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
-		cout << "CLICK DERECHO" << endl;
+		//cout << "CLICK DERECHO" << endl;
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
-		cout << "CLICK MEDIO" << endl;
+		//cout << "CLICK MEDIO" << endl;
 	}
 	if (inputManager.isKeyPressed(SDLK_r) && !player->getAlive())
 	{
 		reset();
 		initLevel();
 		glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+	}
+	if (inputManager.isKeyPressed(SDLK_f))
+	{
+		system("cls");
+		cout << "Contador de Humanos : " << contadorHumanos << endl;
+		cout << "Contador de Zombies : " << contadorZombies << endl;
 	}
 }
 void MainGame::createBullet()
@@ -93,22 +99,16 @@ void MainGame::createBullet()
 	Bullet* bullet = new Bullet();
 	bullet->init(playerPosition, direction, 10.0f, 1000);
 	bullets.push_back(bullet);
-	cout << "Se creo una bala\n";
-	cout << playerPosition.x<<" - "<<playerPosition.y << endl;
-	cout << direction.x<<" - "<<direction.y << endl;
 }
 
 void MainGame::updateElements()
 {
-	
 	if (!player->getAlive()) {
-		/*cout<<"No corriendo\n";*/
 		glClearColor(0.5f, 0.2f, 0.1f, 1.0f);
 		return;
 	}
 	camera2D.update();
 	camera2D.setPosition(player->getPosition());
-	/*cout << "Corriendo\n";*/
 	player->update(levels[currentLevel]->getLevelData(), humans,zombies);
 	for (size_t i = 0; i < humans.size(); i++)
 	{
@@ -127,6 +127,7 @@ void MainGame::updateElements()
 			if (!player->isDead()) {
 				cout << "\nPara revivir presione R\n";
 			}
+			contadorZombies--;
 			break;
 		}
 		for (size_t j = 0; j < humans.size(); j++)
@@ -137,12 +138,15 @@ void MainGame::updateElements()
 				delete humans[j];
 				humans[j] = humans.back();
 				humans.pop_back();
+				contadorHumanos--;
+				contadorZombies++;
 			}
 		}
 	}
 	for (size_t i = 0; i < bullets.size();)
 	{
-		if (bullets[i]->updateB(levels[currentLevel]->getLevelData())) {
+		bullets[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+		if (bullets[i]->isExist()) {
 			bullets[i] = bullets.back();
 			bullets.pop_back();
 		}
@@ -213,6 +217,12 @@ void MainGame::initLevel()
 		zombies.back()->init(1.0f, pos);
 	}
 	spriteFont = new SpriteFont("Fonts/font.ttf",64);
+
+	// INICIALIZACION DE CONTADORES
+	contadorHumanos = humans.size();
+	contadorZombies = zombies.size();
+	cout << "Contador de Humanos : " << contadorHumanos << endl;
+	cout << "Contador de Zombies : " << contadorZombies << endl;
 }
 
 void MainGame::draw() {

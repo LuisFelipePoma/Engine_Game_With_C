@@ -14,7 +14,7 @@ public:
 	~Bullet();
 	void init(glm::vec2 position, glm::vec2 direction, float speed,int lifetime );
 	void draw(SpriteBatch& spritebatch);
-	bool updateB(const vector<string>& levelData);
+	bool isExist();
 	void update(const vector<string>& levelData, vector<Human*>& humans,
 		vector<Zombie*>& zombies);
 	void setLifetime(int lifetime) {
