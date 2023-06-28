@@ -145,7 +145,8 @@ void MainGame::updateElements()
 	}
 	for (size_t i = 0; i < bullets.size();)
 	{
-		if (bullets[i]->updateB(levels[currentLevel]->getLevelData())) {
+		bullets[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+		if (bullets[i]->isExist()) {
 			bullets[i] = bullets.back();
 			bullets.pop_back();
 		}
