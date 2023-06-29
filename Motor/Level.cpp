@@ -42,13 +42,18 @@ void Level::parseLevel()
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id,0.0f, color);
 				break;
 			case 'B':
-				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
 				break;
 			case 'G':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
 				break;
 			case 'L':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/light_bricks.png").id, 0.0f, color);
+				break;
+			case 'O':
+				levelData[y][x] = 'O';
+				cajasPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/caja.png").id, 0.0f, color);
 				break;
 			case '@':
 				levelData[y][x] = '.';
@@ -60,6 +65,7 @@ void Level::parseLevel()
 				zombiesPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 				break;
 			case '.':
+				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/losa.png").id, 0.0f, color);
 
 				break;
 			default:

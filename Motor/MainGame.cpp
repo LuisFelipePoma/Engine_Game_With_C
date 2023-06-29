@@ -67,7 +67,7 @@ void MainGame::handleInput()
 		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-		createBullet();
+		if (contadorBalas < capacidadBalas) createBullet();
 		//cout << "CLICK IZQUIERDO"<<endl;
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
@@ -84,9 +84,7 @@ void MainGame::handleInput()
 	}
 	if (inputManager.isKeyPressed(SDLK_f))
 	{
-		system("cls");
-		cout << "Contador de Humanos : " << contadorHumanos << endl;
-		cout << "Contador de Zombies : " << contadorZombies << endl;
+		showStatus();
 	}
 }
 void MainGame::createBullet()
@@ -99,6 +97,7 @@ void MainGame::createBullet()
 	Bullet* bullet = new Bullet();
 	bullet->init(playerPosition, direction, 10.0f, 1000);
 	bullets.push_back(bullet);
+	contadorBalas++;
 }
 
 void MainGame::updateElements()
@@ -109,18 +108,32 @@ void MainGame::updateElements()
 		return;
 	}
 	if (contadorZombies == 0) {
+		reset();
 		glClearColor(0.5f, 0.2f, 1.f, 0.2f);
 		currentLevel++;
+		capacidadBalas = 200;
+		cout << "Se inicio el siguiente nivel";
+		initLevel();
 		return;
 	}
 	camera2D.update();
 	camera2D.setPosition(player->getPosition());
 	player->update(levels[currentLevel]->getLevelData(), humans,zombies);
-	for (size_t i = 0; i < humans.size(); i++)
+
+	for (size_t i = 0; i < cajas.size(); i++)
+	{
+		if (cajas[i]->collideWithAgent(player)) {
+			delete cajas[i];
+			cajas[i] = cajas.back();
+			cajas.pop_back();
+		}
+	}
+
+	for (int i = 0; i < humans.size(); i++)
 	{
 		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
 	}
-	for (size_t i = 0; i < zombies.size(); i++)
+	for (int i = 0; i < zombies.size(); i++)
 	{
 		zombies[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
 		if (zombies[i]->collideWithAgent(player)) {
@@ -136,7 +149,7 @@ void MainGame::updateElements()
 			contadorZombies--;
 			break;
 		}
-		for (size_t j = 0; j < humans.size(); j++)
+		for (int j = 0; j < humans.size(); j++)
 		{
 			if (zombies[i]->collideWithAgent(humans[j])) {
 				zombies.push_back(new Zombie());
@@ -149,7 +162,7 @@ void MainGame::updateElements()
 			}
 		}
 	}
-	for (size_t i = 0; i < bullets.size();)
+	for (int i = 0; i < bullets.size();)
 	{
 		bullets[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
 		if (bullets[i]->isExist()) {
@@ -157,7 +170,7 @@ void MainGame::updateElements()
 			bullets.pop_back();
 		}
 		else {
-			for (size_t j = 0; j < zombies.size(); j++)
+			for (int j = 0; j < zombies.size(); j++)
 			{
 				if (bullets[i]->collideWithAgent(zombies[j])) {
 					delete zombies[j];
@@ -165,6 +178,7 @@ void MainGame::updateElements()
 					zombies.pop_back();
 					bullets[i]->setLifetime(1);
 					contadorZombies--;
+					contadorBalas -= 5;
 				}
 			}
 			i++;
@@ -184,6 +198,7 @@ void MainGame::init() {
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 	currentLevel = 0;
+	capacidadBalas = 100;
 	initLevel();
 	initShaders();
 }
@@ -191,6 +206,7 @@ void MainGame::init() {
 void MainGame::initLevel()
 {
 	levels.push_back(new Level("Level/level1.txt"));
+	levels.push_back(new Level("Level/level2.txt"));
 
 	//inicializar humanos, player y zombie
 	player = new Player();
@@ -222,13 +238,22 @@ void MainGame::initLevel()
 			zombiesData[i].y);
 		zombies.back()->init(1.0f, pos);
 	}
+	//Creacion de CAjas
+	vector<glm::vec2>cajasData = levels[currentLevel]->getCajasPosition();
+	for (int i = 0; i < cajasData.size(); i++)
+	{
+		cajas.push_back(new Box());
+		glm::vec2 pos(cajasData[i].x,
+			cajasData[i].y);
+		cajas.back()->init(pos);
+	}
 	spriteFont = new SpriteFont("Fonts/font.ttf",64);
 
 	// INICIALIZACION DE CONTADORES
 	contadorHumanos = humans.size();
 	contadorZombies = zombies.size();
-	cout << "Contador de Humanos : " << contadorHumanos << endl;
-	cout << "Contador de Zombies : " << contadorZombies << endl;
+	contadorBalas = 0;
+	showStatus();
 }
 
 void MainGame::draw() {
@@ -259,6 +284,10 @@ void MainGame::draw() {
 	for (int i = 0; i < bullets.size(); i++)
 	{
 		bullets[i]->draw(spriteBatch);
+	}
+	for (int i = 0; i < cajas.size(); i++)
+	{
+		cajas[i]->draw(spriteBatch);
 	}
 
 	spriteBatch.end();
@@ -316,4 +345,14 @@ void MainGame::reset()
 	delete player;
 	levels.clear();
 	currentLevel = 0;
+}
+
+void MainGame::showStatus()
+{
+	system("cls");
+	cout << "Contador de Humanos : " << contadorHumanos << endl;
+	cout << "Contador de Zombies : " << contadorZombies << endl;
+	cout << "Cantidad de Balas : " << capacidadBalas - contadorBalas << endl;
+	cout << "Cantidad de vidas : " << player->getVidas() << endl;
+	
 }

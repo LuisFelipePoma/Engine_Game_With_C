@@ -13,6 +13,7 @@
 #include "SpriteBatch.h"
 #include "Bullet.h"
 #include "SpriteFont.h"
+#include "Box.h"
 
 enum class GameState {
 	PLAY, EXIT
@@ -29,7 +30,8 @@ private:
 	//float time;
 	int contadorHumanos;
 	int contadorZombies;
-
+	int contadorBalas;
+	int capacidadBalas;
 
 	SpriteFont* spriteFont;
 	SpriteBatch spriteBatch;
@@ -39,6 +41,7 @@ private:
 	vector<Human*> humans;
 	vector<Bullet*> bullets;
 	vector<Zombie*> zombies;
+	vector<Box*> cajas;
 	Player* player;
 
 	Window window;
@@ -65,4 +68,5 @@ public:
 	void drawHud();
 	void update();
 	void reset();
+	void showStatus();
 };

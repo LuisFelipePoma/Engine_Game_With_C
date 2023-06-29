@@ -15,6 +15,7 @@ private:
 	void parseLevel();
 	glm::vec2 playerPosition;
 	vector<glm::vec2> zombiesPosition;
+	vector<glm::vec2> cajasPosition;
 	SpriteBatch spriteBatch;
 public:
 	int getNumHumans() const {
@@ -26,6 +27,9 @@ public:
 
 	vector<glm::vec2> getZombiesPosition() const {
 		return zombiesPosition;
+	}
+	vector<glm::vec2> getCajasPosition() const {
+		return cajasPosition;
 	}
 
 	vector<string> getLevelData() {

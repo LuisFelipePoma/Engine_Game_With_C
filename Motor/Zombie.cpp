@@ -54,9 +54,12 @@ void Zombie::update(const vector<string>& levelData, vector<Human*>& humans,
 		direction = glm::rotate(direction, randRotate(randomEngine));
 	}
 	Human* closestHuman = getNearestHuman(humans);
+
 	if (closestHuman != nullptr)
 	{
+
 		glm::vec2 direction = glm::normalize(closestHuman->getPosition()-position);
+		
 		position += direction * speed;
 	}
 }

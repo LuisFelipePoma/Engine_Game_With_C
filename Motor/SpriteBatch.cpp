@@ -59,7 +59,9 @@ void SpriteBatch::createRenderBatches()
 	}
 	int cv = 0;
 	int offset = 0;
-	renderBatches.emplace_back(offset, 6, glyphPointers[0]->texture);
+	//renderBatches.emplace_back(offset, 6, glyphPointers[0]->texture);
+	RenderBatch aux = RenderBatch(offset, 6, glyphPointers[0]->texture);
+	renderBatches.push_back(aux);
 	vertices[cv++] = glyphPointers[0]->topLeft;
 	vertices[cv++] = glyphPointers[0]->bottomLeft;
 	vertices[cv++] = glyphPointers[0]->bottomRight;
@@ -69,8 +71,11 @@ void SpriteBatch::createRenderBatches()
 	offset += 6;
 	for (int i = 1; i < glyphPointers.size(); i++)
 	{
+
 		if (glyphPointers[i]->texture != glyphPointers[i - 1]->texture) {
-			renderBatches.emplace_back(offset, 6, glyphPointers[1]->texture);
+			//renderBatches.emplace_back(offset, 6, glyphPointers[1]->texture);
+			RenderBatch aux2 = RenderBatch(offset, 6, glyphPointers[i]->texture);
+			renderBatches.push_back(aux2);
 		}
 		else {
 			renderBatches.back().numVertices += 6;
@@ -105,7 +110,8 @@ void SpriteBatch::renderBatch()
 
 void SpriteBatch::draw(const glm::vec4& destRect, const glm::vec4& uvRect, GLuint texture, float depth, const Color& color)
 {
-	glyphs.emplace_back(destRect, uvRect, texture, depth, color);
+	Glyph aux(destRect, uvRect, texture, depth, color);
+	glyphs.push_back(aux);
 }
 
 void SpriteBatch::sortGlyph()
