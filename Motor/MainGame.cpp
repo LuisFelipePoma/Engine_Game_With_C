@@ -159,6 +159,7 @@ void MainGame::updateElements()
 					zombies[j] = zombies.back();
 					zombies.pop_back();
 					bullets[i]->setLifetime(1);
+					contadorZombies--;
 				}
 			}
 			i++;
