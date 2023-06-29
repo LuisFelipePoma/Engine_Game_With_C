@@ -103,8 +103,14 @@ void MainGame::createBullet()
 
 void MainGame::updateElements()
 {
-	if (!player->getAlive()) {
+	if (!player->getAlive() || contadorHumanos == 0) {
 		glClearColor(0.5f, 0.2f, 0.1f, 1.0f);
+		currentLevel = 0;
+		return;
+	}
+	if (contadorZombies == 0) {
+		glClearColor(0.5f, 0.2f, 1.f, 0.2f);
+		currentLevel++;
 		return;
 	}
 	camera2D.update();
@@ -151,7 +157,6 @@ void MainGame::updateElements()
 			bullets.pop_back();
 		}
 		else {
-
 			for (size_t j = 0; j < zombies.size(); j++)
 			{
 				if (bullets[i]->collideWithAgent(zombies[j])) {
@@ -159,6 +164,7 @@ void MainGame::updateElements()
 					zombies[j] = zombies.back();
 					zombies.pop_back();
 					bullets[i]->setLifetime(1);
+					contadorZombies--;
 				}
 			}
 			i++;
@@ -177,6 +183,7 @@ void MainGame::init() {
 	}
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+	currentLevel = 0;
 	initLevel();
 	initShaders();
 }
@@ -184,7 +191,6 @@ void MainGame::init() {
 void MainGame::initLevel()
 {
 	levels.push_back(new Level("Level/level1.txt"));
-	currentLevel = 0;
 
 	//inicializar humanos, player y zombie
 	player = new Player();
@@ -290,7 +296,6 @@ void MainGame::run() {
 void MainGame::update() {
 	while (gameState != GameState::EXIT) {
 		draw();
-
 		processInput();
 		updateElements();
 	}
