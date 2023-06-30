@@ -12,7 +12,7 @@ void Agent::checkTilePosition(const vector<string>& levelData,
 
 		return;
 	}
-	if (levelData[cornesPos.y][cornesPos.x] != '.' && levelData[cornesPos.y][cornesPos.x] != 'O') {
+	if (levelData[cornesPos.y][cornesPos.x] != '.') {
 		collideTilePosition.push_back(cornesPos * (float)TILE_WIDTH 
 			+ glm::vec2((float)TILE_WIDTH / 2.0f));
 	}
@@ -76,7 +76,7 @@ void Agent::draw(SpriteBatch& spriteBatch)
 {
 	int textureID = ResourceManager::getTexture(path).id; 
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
-	glm::vec4 destRect(position.x, position.y, AGENT_WIDTH, AGENT_RADIUS);
+	glm::vec4 destRect(position.x, position.y, AGENT_WIDTH, AGENT_WIDTH);
 	spriteBatch.draw(destRect, uvRect, textureID, 1.0f, color);
 }
 
@@ -86,7 +86,6 @@ bool Agent::collideWithLevel(const vector<string>& levelData)
 
 
 	checkTilePosition(levelData, collideTilePosition, position.x, position.y);
-
 	checkTilePosition(levelData, collideTilePosition, position.x + AGENT_WIDTH, position.y);
 	checkTilePosition(levelData, collideTilePosition, position.x, position.y + AGENT_WIDTH);
 	checkTilePosition(levelData, collideTilePosition, position.x + AGENT_WIDTH, position.y + AGENT_WIDTH);

@@ -29,29 +29,32 @@ void Level::parseLevel()
 	glm::vec4 uvRect(0.0f,0.0f,1.0f,1.0f);
 	Color color;
 	color.set(255, 255, 255, 255);
+	Color colorPiso;
+	colorPiso.set(50, 50, 50, 150);
 	for (size_t y = 0; y < levelData.size(); y++)
 	{
 		for (size_t x = 0; x < levelData[y].size(); x++)
 		{
 			char tile = levelData[y][x];
-			glm::vec4 desRect(x * TILE_WIDTH, y * TILE_WIDTH,
-				TILE_WIDTH, TILE_WIDTH);
+			glm::vec4 desRect(x * TILE_WIDTH, y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH);
 			switch (tile)
 			{
 			case 'R':
-				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id,0.0f, color);
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/vallas.png").id,0.0f, color);
 				break;
 			case 'B':
-				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/red_bricks.png").id, 0.0f, color);
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/bricks.png").id, 0.0f, color);
 				break;
 			case 'G':
-				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
+				levelData[y][x] = '.';
+				vidriosPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/glass.png").id, 0.0f, color);
 				break;
 			case 'L':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/light_bricks.png").id, 0.0f, color);
 				break;
 			case 'O':
-				levelData[y][x] = 'O';
+				levelData[y][x] = '.';
 				cajasPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/caja.png").id, 0.0f, color);
 				break;
@@ -65,8 +68,7 @@ void Level::parseLevel()
 				zombiesPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
 				break;
 			case '.':
-				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/losa.png").id, 0.0f, color);
-
+				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/piso.png").id, 0.0f, colorPiso);
 				break;
 			default:
 				break;

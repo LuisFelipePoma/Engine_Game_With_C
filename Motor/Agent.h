@@ -8,7 +8,7 @@
 class Zombie;
 class Human;
 
-const float AGENT_WIDTH = 60.f;
+const float AGENT_WIDTH = 64.f;
 const float AGENT_RADIUS = AGENT_WIDTH / 2.0f;
 
 class Agent

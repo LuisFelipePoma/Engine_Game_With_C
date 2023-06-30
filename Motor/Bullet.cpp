@@ -13,7 +13,7 @@ Bullet::~Bullet()
 
 void Bullet::init(glm::vec2 position, glm::vec2 direction, float speed, int lifetime)
 {
-    this->path = "Textures/circle.png";
+    this->path = "Textures/bala.png";
     this->position = position;
     this->lifetime = lifetime;
     this->direction = direction;

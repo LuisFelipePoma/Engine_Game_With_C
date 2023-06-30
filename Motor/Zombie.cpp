@@ -13,10 +13,10 @@ Zombie::~Zombie()
 
 void Zombie::init(float speed, glm::vec2 position)
 {
-	this->path = "Textures/circle.png";
+	this->path = "Textures/zombie.png";
 	this->speed = speed;
 	this->position = position;
-	color.set(0, 255, 0, 255);
+	color.set(150, 240, 150, 200);
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randDir(-1.0, 1.0f);
 	direction = glm::vec2(randDir(randomEngine), randDir(randomEngine));

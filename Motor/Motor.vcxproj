@@ -145,6 +145,7 @@
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameplayScreen.cpp" />
+    <ClCompile Include="Glass.cpp" />
     <ClCompile Include="HLSLProgram.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="IGameScreen.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Error.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameplayScreen.h" />
+    <ClInclude Include="Glass.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="HLSLProgram.h" />
     <ClInclude Include="Human.h" />

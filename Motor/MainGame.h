@@ -14,7 +14,7 @@
 #include "Bullet.h"
 #include "SpriteFont.h"
 #include "Box.h"
-
+#include "Glass.h"
 enum class GameState {
 	PLAY, EXIT
 };
@@ -42,6 +42,7 @@ private:
 	vector<Bullet*> bullets;
 	vector<Zombie*> zombies;
 	vector<Box*> cajas;
+	vector<Glass*> vidrios;
 	Player* player;
 
 	Window window;
