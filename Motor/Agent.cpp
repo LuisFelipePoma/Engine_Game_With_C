@@ -12,7 +12,7 @@ void Agent::checkTilePosition(const vector<string>& levelData,
 
 		return;
 	}
-	if (levelData[cornesPos.y][cornesPos.x] != '.') {
+	if (levelData[cornesPos.y][cornesPos.x] != '.' && levelData[cornesPos.y][cornesPos.x] != 'O') {
 		collideTilePosition.push_back(cornesPos * (float)TILE_WIDTH 
 			+ glm::vec2((float)TILE_WIDTH / 2.0f));
 	}
@@ -112,6 +112,20 @@ bool Agent::collideWithAgent(Agent* agent)
 		glm::vec2 collisionVec = glm::normalize(dist) * collision;
 		position += collisionVec / 2.0f;
 		agent->setPosition(agent->getPosition() + (collisionVec / 2.0f));
+		return true;
+	}
+	return false;
+}
+
+bool Agent::collideWithMaterial(Agent* agent)
+{
+	glm::vec2 centerPosA = position + glm::vec2(AGENT_WIDTH / 2);
+	glm::vec2 centerPosB = agent->getPosition() + glm::vec2(AGENT_WIDTH / 2);
+	glm::vec2 dist = centerPosA - centerPosB;
+	const float MIN_DISTANCE = AGENT_RADIUS * 2;
+	float distance = glm::length(dist);
+	float collision = MIN_DISTANCE - distance;
+	if (collision > 0){
 		return true;
 	}
 	return false;

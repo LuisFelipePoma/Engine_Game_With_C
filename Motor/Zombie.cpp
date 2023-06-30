@@ -3,8 +3,9 @@
 #include <ctime>
 #include <glm/gtx/rotate_vector.hpp>
 
-Zombie::Zombie()
-{
+Zombie::Zombie(){
+	evolution = 0;
+	this->lives = 1;
 }
 
 Zombie::~Zombie()
@@ -13,10 +14,11 @@ Zombie::~Zombie()
 
 void Zombie::init(float speed, glm::vec2 position)
 {
-	this->path = "Textures/zombie.png";
+	this->path = "Textures/zombie2.png";
 	this->speed = speed;
 	this->position = position;
-	color.set(150, 240, 150, 200);
+	//color.set(150, 240, 150, 200);
+	color.set(255, 255, 255, 255);
 	static std::mt19937 randomEngine(time(nullptr));
 	static std::uniform_real_distribution<float> randDir(-1.0, 1.0f);
 	direction = glm::vec2(randDir(randomEngine), randDir(randomEngine));
@@ -62,4 +64,11 @@ void Zombie::update(const vector<string>& levelData, vector<Human*>& humans,
 		
 		position += direction * speed;
 	}
+}
+
+void Zombie::Evolution()
+{
+	this->path = "Textures/EvolutionZ.png";
+	this->speed = 2.5f;
+	this->lives = 3;
 }

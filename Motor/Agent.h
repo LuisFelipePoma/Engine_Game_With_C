@@ -25,6 +25,8 @@ protected:
 	void collideWithTile(glm::vec2 tilePos);
 public:
 	Agent();
+	float getSpeed()const { return speed; }
+	void setSpeed(float speed) { this->speed = speed; }
 	int getVidas() const {
 		return lives;
 	}
@@ -56,6 +58,7 @@ public:
 						vector<Zombie*>& zombies) = 0;
 	void draw(SpriteBatch& spriteBatch);
 	bool collideWithLevel(const vector<string>& levelData);
-	bool collideWithAgent(Agent* agent);
+	bool collideWithAgent(Agent* agent); 
+	bool collideWithMaterial(Agent* agent);
 };
 

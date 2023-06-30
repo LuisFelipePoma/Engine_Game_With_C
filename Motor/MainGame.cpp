@@ -67,7 +67,10 @@ void MainGame::handleInput()
 		camera2D.setScale(camera2D.getScale() - SCALE_SPEED);
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
-		if (contadorBalas < capacidadBalas) createBullet();
+		time_t tiempo_actual = time(NULL);
+		if (difftime(tiempo_actual, timeShoot) > 0.1) {
+			if (contadorBalas < capacidadBalas) createBullet();
+		}
 		//cout << "CLICK IZQUIERDO"<<endl;
 	}
 	if (inputManager.isKeyPressed(SDL_BUTTON_RIGHT)) {
@@ -76,7 +79,7 @@ void MainGame::handleInput()
 	if (inputManager.isKeyPressed(SDL_BUTTON_MIDDLE)) {
 		//cout << "CLICK MEDIO" << endl;
 	}
-	if (inputManager.isKeyPressed(SDLK_r) && (!player->getAlive() || contadorHumanos == 0))
+	if (inputManager.isKeyPressed(SDLK_r) && !player->getAlive())
 	{
 		reset();
 		initLevel();
@@ -95,9 +98,10 @@ void MainGame::createBullet()
 	glm::vec2 direction = mouseCoords - playerPosition;
 	direction = glm::normalize(direction);
 	Bullet* bullet = new Bullet();
-	bullet->init(playerPosition, direction, 10.0f, 1000);
+	bullet->init(playerPosition, direction, 5.0f, 10000);
 	bullets.push_back(bullet);
 	contadorBalas++;
+	timeShoot = time(NULL);
 }
 
 void MainGame::updateElements()
@@ -131,6 +135,14 @@ void MainGame::updateElements()
 		}
 	}
 
+	for (size_t i = 0; i < zoneWaters.size(); ++i) {
+		if (zoneWaters[i]->collideWithMaterial(player)) {
+			player->setSpeed(Speed_Player / 2.0);
+			break;
+		}
+		else player->setSpeed(Speed_Player);
+	}
+
 	for (int i = 0; i < humans.size(); i++)
 	{
 		humans[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
@@ -155,17 +167,40 @@ void MainGame::updateElements()
 		for (int j = 0; j < humans.size(); j++)
 		{
 			if (zombies[i]->collideWithAgent(humans[j])) {
-				zombies.push_back(new Zombie());
-				zombies.back()->init(1.3f, humans[j]->getPosition());
+				zombies[i]->setEvolution(zombies[i]->getEvolution() + 1);
+				if (zombies[i]->getEvolution() > 5) {
+					zombies.push_back(new Zombie());
+					zombies.back()->init(Speed_Zombie, humans[j]->getPosition());
+					contadorZombies++;
+				}
 				delete humans[j];
 				humans[j] = humans.back();
 				humans.pop_back();
 				contadorHumanos--;
-				contadorZombies++;
 			}
 		}
+		if (zombies[i]->getEvolution() == 5)zombies[i]->Evolution();
 	}
-
+	for (int i = 0; i < bullets.size();)
+	{
+		bullets[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
+		if (bullets[i]->isExist()) {
+			bullets[i] = bullets.back();
+			bullets.pop_back();
+		}
+		else {
+			for (int j = 0; j < vidrios.size(); j++)
+			{
+				if (bullets[i]->collideWithAgent(vidrios[j])) {
+					delete vidrios[j];
+					vidrios[j] = vidrios.back();
+					vidrios.pop_back();
+					bullets[i]->setLifetime(1);
+				}
+			}
+			i++;
+		}
+	}
 	for (int i = 0; i < bullets.size();)
 	{
 		bullets[i]->update(levels[currentLevel]->getLevelData(), humans, zombies);
@@ -177,23 +212,15 @@ void MainGame::updateElements()
 			for (int j = 0; j < zombies.size(); j++)
 			{
 				if (bullets[i]->collideWithAgent(zombies[j])) {
-					delete zombies[j];
-					cout << "Se choco el zombie\n";
-					zombies[j] = zombies.back();
-					zombies.pop_back();
+					zombies[j]->setVidas(zombies[j]->getVidas() - 1);
+					if (zombies[j]->getVidas() <= 0) {
+						delete zombies[j];
+						zombies[j] = zombies.back();
+						zombies.pop_back();
+						contadorZombies--;
+					}
 					bullets[i]->setLifetime(1);
-					contadorZombies--;
 					contadorBalas -= 5;
-				}
-			}
-			for (int j = 0; j < vidrios.size(); j++)
-			{
-				if (bullets[i]->collideWithAgent(vidrios[j])) {
-					cout << "Se choco el vidrio\n";
-					delete vidrios[j];
-					vidrios[j] = vidrios.back();
-					vidrios.pop_back();
-					bullets[i]->setLifetime(1);
 				}
 			}
 			i++;
@@ -214,18 +241,20 @@ void MainGame::init() {
 	glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 	currentLevel = 0;
 	capacidadBalas = 100;
+	timeShoot = time(NULL);
 	initLevel();
 	initShaders();
 }
 
 void MainGame::initLevel()
 {
+	reset();
 	levels.push_back(new Level("Level/level1.txt"));
 	levels.push_back(new Level("Level/level2.txt"));
 
 	//inicializar humanos, player y zombie
 	player = new Player();
-	player->init(5, 5.0f, levels[currentLevel]->getPlayerPosition(), &inputManager);
+	player->init(5, Speed_Player, levels[currentLevel]->getPlayerPosition(), &inputManager);
 	alphaReduce = (255 / player->getVidas());
 	spriteBatch.init();
 	hudBatch.init();
@@ -241,7 +270,7 @@ void MainGame::initLevel()
 	{
 		humans.push_back(new Human());
 		glm::vec2 pos(randomPoxX(randomEngine) * TILE_WIDTH, randomPoxY(randomEngine) * TILE_WIDTH/2);
-		humans.back()->init(1.0f, pos);
+		humans.back()->init(Spedd_Human, pos);
 	}
 	//Creacion de Zombies
 	vector<glm::vec2>zombiesData = levels[currentLevel]->getZombiesPosition();
@@ -249,7 +278,7 @@ void MainGame::initLevel()
 	{
 		zombies.push_back(new Zombie());
 		glm::vec2 pos(zombiesData[i].x, zombiesData[i].y);
-		zombies.back()->init(1.0f, pos);
+		zombies.back()->init(Speed_Zombie, pos);
 	}
 	//Creacion de Cajas
 	vector<glm::vec2>cajasData = levels[currentLevel]->getCajasPosition();
@@ -259,6 +288,13 @@ void MainGame::initLevel()
 		glm::vec2 pos(cajasData[i].x,
 			cajasData[i].y);
 		cajas.back()->init(pos);
+	}
+	//Creaci�n de Zona de aguas
+	vector<glm::vec2> zoneWaterData = levels[currentLevel]->getWaterPosition();
+	for (int i = 0; i < zoneWaterData.size(); ++i) {
+		zoneWaters.push_back(new Water());
+		glm::vec2 pos(zoneWaterData[i].x, zoneWaterData[i].y);
+		zoneWaters.back()->init(pos);
 	}
 	//Creacion de Vidrios
 	vector<glm::vec2>vidriosData = levels[currentLevel]->getVidriosPosition();
@@ -283,7 +319,7 @@ void MainGame::draw() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	program.use();
 	glActiveTexture(GL_TEXTURE0);
-	
+
 	glm::mat4 cameraMatrix = camera2D.getCameraMatrix();
 	GLuint pCameraLocation = program.getUniformLocation("pCamera");
 	glUniformMatrix4fv(pCameraLocation, 1, GL_FALSE, &(cameraMatrix[0][0]));
@@ -292,7 +328,7 @@ void MainGame::draw() {
 	glUniform1i(imageLocation, 0);
 
 	spriteBatch.begin();
-	
+
 	levels[currentLevel]->draw();
 	player->draw(spriteBatch);
 	for (int i = 0; i < humans.size(); i++)
@@ -310,6 +346,9 @@ void MainGame::draw() {
 	for (int i = 0; i < cajas.size(); i++)
 	{
 		cajas[i]->draw(spriteBatch);
+	}
+	for (int i = 0; i < zoneWaters.size(); ++i) {
+		zoneWaters[i]->draw(spriteBatch);
 	}
 	for (int i = 0; i < vidrios.size(); i++)
 	{
@@ -367,9 +406,13 @@ void MainGame::reset()
 		delete humans[i];
 	}
 	humans.clear();
-	delete player;
-	levels.clear();
-	currentLevel = 0;
+	for (size_t i = 0; i < zoneWaters.size(); ++i) {
+		delete zoneWaters[i];
+	}
+	zoneWaters.clear();
+	//delete player;
+	//levels.clear();
+	//currentLevel = 0;
 }
 
 void MainGame::showStatus()

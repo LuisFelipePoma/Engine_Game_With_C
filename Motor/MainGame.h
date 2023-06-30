@@ -15,6 +15,13 @@
 #include "SpriteFont.h"
 #include "Box.h"
 #include "Glass.h"
+#include "Water.h"
+
+#define Speed_Player 8.0f
+#define Speed_Zombie 1.0f
+#define Spedd_Human 1.0f
+//const float Speed_Player = 5.0f;
+
 enum class GameState {
 	PLAY, EXIT
 };
@@ -22,6 +29,7 @@ enum class GameState {
 class MainGame
 {
 private:
+	time_t timeShoot;
 	int width;
 	int height;
 	int currentLevel;
@@ -43,6 +51,7 @@ private:
 	vector<Zombie*> zombies;
 	vector<Box*> cajas;
 	vector<Glass*> vidrios;
+	vector<Water*> zoneWaters;
 	Player* player;
 
 	Window window;

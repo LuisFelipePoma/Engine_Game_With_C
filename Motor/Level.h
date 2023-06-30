@@ -16,6 +16,7 @@ private:
 	glm::vec2 playerPosition;
 	vector<glm::vec2> zombiesPosition;
 	vector<glm::vec2> cajasPosition;
+	vector<glm::vec2> waterPosition;
 	vector<glm::vec2> vidriosPosition;
 	SpriteBatch spriteBatch;
 public:
@@ -31,6 +32,9 @@ public:
 	}
 	vector<glm::vec2> getCajasPosition() const {
 		return cajasPosition;
+	}
+	vector<glm::vec2> getWaterPosition() const {
+		return waterPosition;
 	}
 	vector<glm::vec2> getVidriosPosition() const {
 		return vidriosPosition;

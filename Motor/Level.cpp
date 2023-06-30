@@ -28,6 +28,7 @@ void Level::parseLevel()
 	spriteBatch.begin();
 	glm::vec4 uvRect(0.0f,0.0f,1.0f,1.0f);
 	Color color;
+	GLuint n;
 	color.set(255, 255, 255, 255);
 	Color colorPiso;
 	colorPiso.set(50, 50, 50, 150);
@@ -41,6 +42,13 @@ void Level::parseLevel()
 			{
 			case 'R':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/vallas.png").id,0.0f, color);
+				break;
+			case 'F':
+				levelData[y][x] = '.';
+				n = rand() % 3 + 1;
+				if(n==1)spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/FYellow.png").id, 0.0f, color);
+				if(n==2)spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/FWhite.png").id, 0.0f, color);
+				if(n==3)spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/FBlue.png").id, 0.0f, color);
 				break;
 			case 'B':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/bricks.png").id, 0.0f, color);
@@ -66,6 +74,11 @@ void Level::parseLevel()
 			case 'Z':
 				levelData[y][x] = '.';
 				zombiesPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+				break;
+			case 'W':
+				levelData[y][x] = '.';
+				waterPosition.emplace_back(x * TILE_WIDTH, y * TILE_WIDTH);
+				//spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/water.png").id, 0.0f, color);
 				break;
 			case '.':
 				spriteBatch.draw(desRect, uvRect, ResourceManager::getTexture("Textures/piso.png").id, 0.0f, colorPiso);

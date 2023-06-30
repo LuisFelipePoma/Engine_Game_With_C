@@ -163,6 +163,7 @@
     <ClCompile Include="SpriteBatch.cpp" />
     <ClCompile Include="SpriteFont.cpp" />
     <ClCompile Include="TextureCache.cpp" />
+    <ClCompile Include="Water.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
@@ -185,6 +186,7 @@
     <ClInclude Include="IOManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="Materials.h" />
     <ClInclude Include="picoPNG.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -195,6 +197,7 @@
     <ClInclude Include="SpriteFont.h" />
     <ClInclude Include="TextureCache.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="Water.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="Zombie.h" />
   </ItemGroup>
